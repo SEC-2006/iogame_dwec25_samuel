@@ -1,7 +1,7 @@
 export {renderContent}
 
 function renderContent(){
-  const tablero = Array(16).fill(0).map((_,i)=>i)
+  const tablero = Array(16).fill(0);
     return `
 <div class="container board-wrapper">
   <div class="board">
