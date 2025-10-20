@@ -5,7 +5,7 @@ import { router } from "./router";
 import * as bootstrap from 'bootstrap'
 
 import { renderHeader } from "./components/header"
-import { renderContent } from "./components/content";
+//import { renderContent } from "./components/content";
 import { renderFooter } from "./components/footer";
 
 document.addEventListener("DOMContentLoaded",()=>{

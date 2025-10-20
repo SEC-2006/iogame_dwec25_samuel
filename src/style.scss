@@ -1,7 +1,5 @@
 @import "bootstrap/scss/bootstrap";
 
-
-
   .board {
     width: 100%;                 
     max-width: 750px;          
@@ -22,7 +20,7 @@
     align-items: center;
     justify-content: center;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    font-size: 12px;
+    font-size: 20px;
     color: #222;
     background: linear-gradient(180deg, #f8f8f8, #e9eef8);
     /*border: 1px solid rgba(0,0,0,0.06);*/
@@ -39,5 +37,8 @@
 
   .board-wrapper {
     padding: 8px;
-    overflow-x: auto; 
+    overflow-x: auto;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
   }
