@@ -1,11 +1,9 @@
-export {renderLogin}
-import { renderHeaderUser } from "./header"
+export {renderRegister}
 
-
-function renderLogin(){
+function renderRegister(){
     return `
-    <h1>Login</h1>
-    <form onsubmit="loginUsuario(event)">
+    <h1>Register</h1>
+    <form onsubmit="registrarUsuario(event)">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" placeholder="Enter email">
@@ -14,17 +12,17 @@ function renderLogin(){
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Enter password">
         </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">Register</button>
     </form>
     `;
 }
 
-async function loginUsuario(event) {
+async function registrarUsuario(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('https://ojnmffyrmurpqabunknc.supabase.co/auth/v1/token?grant_type=password', {
+    const response = await fetch('https://ojnmffyrmurpqabunknc.supabase.co/auth/v1/signup', {
         method: 'POST',
         headers: {
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qbm1mZnlybXVycHFhYnVua25jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NzI4NDMsImV4cCI6MjA3NjE0ODg0M30.HNZlj_rLFSFHQdHkg7zVAXjegZgIQHnzuQjt4VXvjpo',
@@ -39,21 +37,13 @@ async function loginUsuario(event) {
     const data = await response.json();
     console.log(data);
     if (response.ok) {
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("id", data.user.id);
-        localStorage.setItem("email",data.user.email);
-        alert('User logged in successfully!');
-        const headerDiv = document.querySelector('#header');
-        headerDiv.innerHTML = renderHeaderUser();
-        window.location.hash = '#game';
-
+        alert('User registered successfully!');
+        window.location.hash = '#login';
     } else {
-        alert('Error logging in user: ' + data.msg);
+        alert('Error registering user: ' + data.msg);
     }
-
-    
 }
 
 if (typeof window !== 'undefined') {
-    window.loginUsuario = loginUsuario;
+    window.registrarUsuario = registrarUsuario;
 }
