@@ -49,7 +49,7 @@ function renderHeaderUser(){
             `<span>${localStorage.getItem('email')}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="#">Preferenes</a></li>
+            <li><a class="dropdown-item" href="#profile">Preferenes</a></li>
             <li><a class="dropdown-item" href="#login" onclick="logout()">Logout</a></li>
           </ul>
         </li>
@@ -58,10 +58,12 @@ function renderHeaderUser(){
   </div>
 </nav>
     `;
+
+  
 }
 
 async function logout(){
-    const response = await fetch('https://ojnmffyrmurpqabunknc.supabase.co/auth/v1/logout', {
+    await fetch('https://ojnmffyrmurpqabunknc.supabase.co/auth/v1/logout', {
         method: 'POST',
         headers: {
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qbm1mZnlybXVycHFhYnVua25jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1NzI4NDMsImV4cCI6MjA3NjE0ODg0M30.HNZlj_rLFSFHQdHkg7zVAXjegZgIQHnzuQjt4VXvjpo',
@@ -70,20 +72,13 @@ async function logout(){
         }
     });
 
-    const data = await response.json();
-    console.log(data);
-    if (response.ok) {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("id");
-      localStorage.removeItem("email");
-      alert('User logged out successfully!');
-      const headerDiv = document.querySelector('#header');
-      headerDiv.innerHTML = renderHeader();
-    }
-    else
-    {
-        alert('Error logging out user: ' + data.msg);
-    }
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("email");
+    const headerDiv = document.querySelector('#header');
+    headerDiv.innerHTML = renderHeader();
+    alert('Sesión cerrada correctamente!');
+    
 }
 
 if (typeof window !== 'undefined') {

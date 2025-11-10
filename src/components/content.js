@@ -4,21 +4,37 @@ let tableroA = Array(16).fill("");
 let tableroB = Array(16).fill("");
 let turno = 0;
 
-function renderContent(){
-  return `
-<div class="container board-wrapper">
-  <div class="board">
-  ${
-    tableroA.map((f, i) => `<div class="cell" onclick="clickDiv(${i}, 'A')">${f}</div>`).join('')
-  }
+function renderContent() {
+  const contHtml = `
+  <div class="container board-wrapper">
+    <div class="board">
+    ${
+      tableroA.map((f) => `<div class="cell">${f}</div>`).join('')
+    }
+    </div>
+    <div class="board">
+    ${
+      tableroB.map((f) => `<div class="cell">${f}</div>`).join('')
+    }
+    </div>
   </div>
-  <div class="board">
-  ${
-    tableroB.map((f, i) => `<div class="cell" onclick="clickDiv(${i}, 'B')">${f}</div>`).join('')
-  }
-  </div>
-</div>
   `;
+
+  const divCont = document.createElement('div');
+  divCont.innerHTML = contHtml;
+
+  const tableros = divCont.querySelectorAll('.board');
+  tableros.forEach((tablero, nTablero) => {
+    tablero.querySelectorAll('.cell').forEach((cell, index) => {
+      cell.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (nTablero === 0) clickDiv(index, "A");
+        else clickDiv(index, "B");
+      });
+    });
+  });
+
+  return divCont;
 }
 
 if (typeof window !== 'undefined' && !window.tableroA_listener) {
@@ -28,25 +44,25 @@ if (typeof window !== 'undefined' && !window.tableroA_listener) {
       moverArriba(tableroA);
       turno++;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
     if (e.key === 'a' && turno === 1) {
       moverIzquierda(tableroA);
       turno++;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
     if (e.key === 's' && turno === 1) {
       moverAbajo(tableroA);
       turno++;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
     if (e.key === 'd' && turno === 1) {
       moverDerecha(tableroA);
       turno++;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
   });
 }
@@ -58,25 +74,25 @@ if (typeof window !== 'undefined' && !window.tableroB_listener) {
       moverArriba(tableroB);
       turno = 0;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
     if (e.key === 'a' && turno === 3) {
       moverIzquierda(tableroB);
       turno = 0;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
     if (e.key === 's' && turno === 3) {
       moverAbajo(tableroB);
       turno = 0;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
     if (e.key === 'd' && turno === 3) {
       moverDerecha(tableroB);
       turno = 0;
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.innerHTML = renderContent();
+      if (appDiv) appDiv.replaceChildren(renderContent());
     }
   });
 }
@@ -415,9 +431,5 @@ function clickDiv(index, tablero) {
     turno++;
   }
   const appDiv = document.querySelector('#app');
-  if (appDiv) appDiv.innerHTML = renderContent();
-}
-
-if (typeof window !== 'undefined') {
-  window.clickDiv = clickDiv;
+  if (appDiv) appDiv.replaceChildren(renderContent());
 }
