@@ -1,10 +1,35 @@
-export {renderContent}
+//import { usuarioTienePartida, crearPartida, cargarPartida, guardarPartida } from "../services/supaservice";
+
+export {renderContent, moverArriba, moverAbajo, moverIzquierda, moverDerecha, clickDiv}
 
 let tableroA = Array(16).fill("");
 let tableroB = Array(16).fill("");
 let turno = 0;
+//let idPartida = -1;
 
-function renderContent() {
+async function renderContent() {
+  /*const PartidaGuardadaBool = await usuarioTienePartida();
+
+  if(PartidaGuardadaBool === null) {
+    alert("No puedes jugar sin haber iniciado sesión");
+    window.location.hash = "#login";
+    return;
+  } else if(PartidaGuardadaBool == true) {
+    console.log("Cargando partida guardada...");
+    const partida = await cargarPartida(localStorage.getItem("email"));
+    tableroA = partida.tableroA;
+    tableroB = partida.tableroB;
+    turno = partida.turno;
+    idPartida = partida.id;
+  } else {
+    console.log("Iniciando nueva partida...");
+    idPartida = await crearPartida();
+    tableroA = Array(16).fill("");
+    tableroB = Array(16).fill("");
+    turno = 0;
+  }*/
+
+
   const contHtml = `
   <div class="container board-wrapper">
     <div class="board">
@@ -26,10 +51,10 @@ function renderContent() {
   const tableros = divCont.querySelectorAll('.board');
   tableros.forEach((tablero, nTablero) => {
     tablero.querySelectorAll('.cell').forEach((cell, index) => {
-      cell.addEventListener("click", (event) => {
+      cell.addEventListener("click", async (event) => {
         event.preventDefault();
-        if (nTablero === 0) clickDiv(index, "A");
-        else clickDiv(index, "B");
+        if (nTablero === 0) await clickDiv(index, "A");
+        else await clickDiv(index, "B");
       });
     });
   });
@@ -39,60 +64,68 @@ function renderContent() {
 
 if (typeof window !== 'undefined' && !window.tableroA_listener) {
   window.tableroA_listener = true;
-  window.addEventListener('keydown', (e) => {
+  window.addEventListener('keydown', async (e) => {
     if (e.key === 'w' && turno === 1) {
       moverArriba(tableroA);
       turno++;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
     if (e.key === 'a' && turno === 1) {
       moverIzquierda(tableroA);
       turno++;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
     if (e.key === 's' && turno === 1) {
       moverAbajo(tableroA);
       turno++;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
     if (e.key === 'd' && turno === 1) {
       moverDerecha(tableroA);
       turno++;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
   });
 }
 
 if (typeof window !== 'undefined' && !window.tableroB_listener) {
   window.tableroB_listener = true;
-  window.addEventListener('keydown', (e) => {
+  window.addEventListener('keydown', async (e) => {
     if (e.key === 'w' && turno === 3) {
       moverArriba(tableroB);
       turno = 0;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
     if (e.key === 'a' && turno === 3) {
       moverIzquierda(tableroB);
       turno = 0;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
     if (e.key === 's' && turno === 3) {
       moverAbajo(tableroB);
       turno = 0;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
     if (e.key === 'd' && turno === 3) {
       moverDerecha(tableroB);
       turno = 0;
+      //await guardarPartida(idPartida, tableroA, tableroB, turno);
       const appDiv = document.querySelector('#app');
-      if (appDiv) appDiv.replaceChildren(renderContent());
+      if (appDiv) appDiv.replaceChildren(await renderContent());
     }
   });
 }
@@ -421,15 +454,17 @@ function moverDerecha(tablero) {
   }
 }
 
-function clickDiv(index, tablero) {
+async function clickDiv(index, tablero) {
   if (tablero === 'A' && tableroA[index] === "" && turno === 0) {
     tableroA[index] = 2;
     turno++;
+    //await guardarPartida(idPartida, tableroA, tableroB, turno);
   }
   if (tablero === 'B' && tableroB[index] === "" && turno === 2) {
     tableroB[index] = 2;
     turno++;
+    //await guardarPartida(idPartida, tableroA, tableroB, turno);
   }
   const appDiv = document.querySelector('#app');
-  if (appDiv) appDiv.replaceChildren(renderContent());
+  if (appDiv) appDiv.replaceChildren(await renderContent());
 }

@@ -14,9 +14,9 @@ const routes = new Map([
 ])
 
 
-function router(route,container){
+async function router(route,container){
     if(routes.has(route)){
-        container.replaceChildren(routes.get(route)());
+        container.replaceChildren(await routes.get(route)());
     }
     else {
         container.innerHTML = `<h2>404</h2>`
